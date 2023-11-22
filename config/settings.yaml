@@ -1,33 +1,42 @@
 ---
-dataset_root_dir: "C:\\data\\test_data\\Brazilian_E_Commerce"
-source_file:
-  orders:
-    format: csv
-    dataset: olist_orders_dataset.csv
-    columns:
-      - order_id
-      - order_purchase_timestamp
-      - order_status
-    filters: "order_status not in ('canceled')"
-  products:
-    format: csv
-    dataset: olist_products_dataset.csv
-    columns:
-      - product_id
-      - product_category_name
-    filters: "product_category_name is not null"
-  order_payment:
-    format: csv
-    dataset: olist_order_payments_dataset.csv
-    columns:
-      - order_id
-      - payment_value
-  order_items:
-    format: csv
-    dataset: olist_order_items_dataset.csv
-    columns:
-      - order_id
-      - product_id
+DEV:
+  dataset_root_dir: "C:\\data\\test_data\\Brazilian_E_Commerce"
+  source_file: &source_file
+    orders:
+      format: csv
+      dataset: olist_orders_dataset.csv
+      columns:
+        - order_id
+        - order_purchase_timestamp
+        - order_status
+      filters: "order_status not in ('canceled')"
+    products:
+      format: csv
+      dataset: olist_products_dataset.csv
+      columns:
+        - product_id
+        - product_category_name
+      filters: "product_category_name is not null"
+    order_payment:
+      format: csv
+      dataset: olist_order_payments_dataset.csv
+      columns:
+        - order_id
+        - payment_value
+    order_items:
+      format: csv
+      dataset: olist_order_items_dataset.csv
+      columns:
+        - order_id
+        - product_id
 
-countries:
-  - brazil
+  countries: &counties
+    - brazil
+
+  output_path: "C:\\data\\test_data\\output"
+
+PROD:
+  dataset_root_dir: "C:\\data\\prod_data\\Brazilian_E_Commerce"
+  output_path: "C:\\data\\prod_data\\output"
+  source_file: *source_file
+  countries: *counties

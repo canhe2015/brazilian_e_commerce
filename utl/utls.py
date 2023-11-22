@@ -7,7 +7,7 @@ _sc = spark.sparkContext
 _sc.setLogLevel("INFO")
 
 
-def rtn_logger(name) -> :
+def rtn_logger(name):
     """
        generated logger
        :param name:
@@ -43,18 +43,6 @@ def read_yaml(yaml_file_path: str) -> dict:
     """
     with open(yaml_file_path, "r") as f:
         data = yaml.safe_load(f.read())
+        print(data)
         return data
 
-
-# class SparkClz:
-#     def __init__(self, appname, master="local[*]"):
-#         self.appname = appname
-#         self.master = master
-#
-#     def rt_spk_ins(self):
-#         return (SparkSession
-#                 .builder
-#                 .master(self.master)
-#                 .appName(self.appname)
-#                 .enableHiveSupport()
-#                 .getOrCreate())
