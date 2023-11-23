@@ -6,34 +6,32 @@ import yaml
 from utl.utls import read_yaml, rtn_logger, spark, show_df
 
 
-def test_read_valid_yaml_file():
+def test_read_valid_yaml_file(tmpdir):
     # Create a temporary YAML file for testing
-    temp_yaml_file = "temp.yaml"
+    tmp_yaml_file = "temp.yaml"
+    tmp_yml_path = os.path.join(tmpdir, tmp_yaml_file)
     yaml_content = {"key": "value"}
 
-    with open(temp_yaml_file, "w") as f:
+    with open(tmp_yml_path, "w") as f:
         yaml.dump(yaml_content, f)
-
     # Test the read_yaml function with the temporary YAML file
-    result = read_yaml(temp_yaml_file)
-    os.remove(temp_yaml_file)  # Clean up the temporary file
+    result = read_yaml(tmp_yml_path)
 
     assert result == yaml_content
 
 
-def test_read_invalid_yaml_file():
+def test_read_invalid_yaml_file(tmpdir):
     # Create an invalid YAML file for testing
     temp_yaml_file = "temp_invalid.yaml"
     invalid_yaml_content = "{'key: value"  # Invalid YAML content
+    tmp_file_path = os.path.join(tmpdir, temp_yaml_file)
 
-    with open(temp_yaml_file, "w") as f:
+    with open(tmp_file_path, "w") as f:
         f.write(invalid_yaml_content)
 
     # Test whether the read_yaml function raises an exception when reading the invalid file
     with pytest.raises(yaml.YAMLError):
-        read_yaml(temp_yaml_file)
-
-    os.remove(temp_yaml_file)  # Clean up the temporary file
+        read_yaml(tmp_file_path)
 
 
 def test_rtn_logger():

@@ -27,7 +27,7 @@ class Transform:
         self.logger = rtn_logger("Brazilian_E_Commerce_" + self.__class__.__name__)
         self.env = env
 
-    def construct_Yml(self) -> None:
+    def construct_yml(self) -> None:
         data = read_yaml(self.yml_path).get(self.env, None)
         self.logger.info(f"yaml data is {data}")
         if data:
@@ -53,7 +53,8 @@ class Transform:
         ]
         return products, orders, order_payment, order_items
 
-    def transform(self, products: DataFrame, orders: DataFrame, order_payment: DataFrame, order_items: DataFrame):
+    def transform(self, products: DataFrame,
+                  orders: DataFrame, order_payment: DataFrame, order_items: DataFrame) -> DataFrame:
         df1 = products.join(order_items, ["product_id"]).select("product_id", "order_id", "product_category_name")
         df1.show(truncate=False)
 
@@ -78,7 +79,7 @@ class Transform:
         df.write.mode("overwrite").partitionBy(self.yml.output_partitions).parquet(self.yml.output_path)
 
     def pipeline(self) -> None:
-        self.construct_Yml()
-        products, orders, order_payment, order_items = self.extract()
-        result = self.transform(products, orders, order_payment, order_items)
-        self.load(result)
+        self.construct_yml()
+        # dfs = self.extract()
+        # result = self.transform(*dfs)
+        # self.load(result)
