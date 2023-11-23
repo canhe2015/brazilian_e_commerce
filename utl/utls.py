@@ -10,8 +10,8 @@ _sc.setLogLevel("INFO")
 def rtn_logger(name):
     """
        generated logger
-       :param name:
-       :return:
+       :param name: give a name for logger
+       :return: log4j logger with a name specified
     """
     log4jLogger = spark.sparkContext._jvm.org.apache.log4j
     logger = log4jLogger.LogManager.getLogger(name)

@@ -3,7 +3,7 @@ import os
 import pytest
 import yaml
 
-from utl.utls import read_yaml
+from utl.utls import read_yaml, rtn_logger, spark
 
 
 def test_read_valid_yaml_file():
@@ -34,3 +34,12 @@ def test_read_invalid_yaml_file():
         read_yaml(temp_yaml_file)
 
     os.remove(temp_yaml_file)  # Clean up the temporary file
+
+
+def test_rtn_logger():
+    logger_name = "TestLogger"
+    logger = rtn_logger(logger_name)
+
+    assert logger, "Logger object should not be None"
+    log_manager = spark.sparkContext._jvm.org.apache.log4j.LogManager
+    assert log_manager.exists(logger_name), "Logger name should match the given name"
