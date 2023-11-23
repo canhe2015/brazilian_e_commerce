@@ -41,14 +41,14 @@ class Transform:
         if not all(datasets):
             raise Exception("empty datasets are spotted, please provide all required datasets")
         products, orders, order_payment, order_items = [
-            spark
+                spark
                 .read
                 .format(d['format'])
                 .option("header", True)
                 .load(d['dataset'])
                 .select(*d['columns'])
                 .where(d.get('filters', '1=1'))
-            for d in datasets
+                for d in datasets
         ]
         return products, orders, order_payment, order_items
 

@@ -1,0 +1,5 @@
+PyYAML==6.0.1
+py4j==0.10.9.5
+python==3.10
+pyspark==3.31
+pytest==7.4.3
