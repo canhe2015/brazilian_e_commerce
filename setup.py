@@ -1,13 +1,14 @@
 from setuptools import setup, find_packages
-import addtag
+
+import etl
 
 setup(
-    name='dmp_d_dataprocessor',
-    version=addtag.__version__,
-    description='dmpd realtime tagging',
-    packages=find_packages(include=['addtag', 'utl', 'pipeline','crm']),
+    name='brazilian_e_commerce',
+    version=etl.__version__,
+    description='brazilian_e_commerce',
+    packages=find_packages(include=['etl', 'utl', 'tests']),
     entry_points={
-        'group_1': 'run=addtag.__main__:main'
+        'group_1': 'run=etl.__main__:main'
 
     },
     install_requires=[
