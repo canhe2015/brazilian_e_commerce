@@ -31,7 +31,7 @@ def show_df(df, n=20, truncate=False, vertical=False) -> str:
     if n > 50:
         n = 20
     if isinstance(truncate, bool) and truncate:
-        return df._jdf.showString(n, truncate, vertical)
+        return df._jdf.showString(n, 20, vertical)
     else:
         return df._jdf.showString(n, int(truncate), vertical)
 
