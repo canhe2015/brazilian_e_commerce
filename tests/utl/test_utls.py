@@ -3,7 +3,7 @@ import os
 import pytest
 import yaml
 
-from utl.utls import read_yaml, rtn_logger, spark
+from utl.utls import read_yaml, rtn_logger, spark, show_df
 
 
 def test_read_valid_yaml_file():
@@ -43,3 +43,34 @@ def test_rtn_logger():
     assert logger, "Logger object should not be None"
     log_manager = spark.sparkContext._jvm.org.apache.log4j.LogManager
     assert log_manager.exists(logger_name), "Logger name should match the given name"
+
+
+def test_show_df():
+    # Create a sample DataFrame for testing
+    data = [("Alice", 1), ("Bob", 2), ("Carol", 3)]
+    columns = ["Name", "Value"]
+    df = spark.createDataFrame(data, columns)
+
+    # Test show_df function with default parameters
+    result_default = show_df(df)
+    assert (
+            "Alice" in result_default and "Bob" in result_default and "Carol" in result_default
+    ), "The result should contain the data from the DataFrame"
+
+    # Test show_df function with n=2
+    result_n = show_df(df, n=2)
+    assert (
+            "Alice" in result_n and "Bob" in result_n and "Carol" not in result_n
+    ), "The result should contain data up to n=2"
+
+    # Test show_df function with truncate=True
+    result_truncate = show_df(df, truncate=True)
+    assert (
+            "Alice" in result_truncate and "Bob" in result_truncate and "Carol" in result_truncate
+    ), "The result should contain the data from the DataFrame and be truncated"
+
+    # Test show_df function with vertical=True
+    result_vertical = show_df(df, vertical=True)
+    assert (
+            "Alice" in result_vertical and "Bob" in result_vertical and "Carol" in result_vertical
+    ), "The result should contain the data from the DataFrame and be displayed vertically"

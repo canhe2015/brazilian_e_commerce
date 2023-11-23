@@ -11,11 +11,6 @@ def main():
     logger = rtn_logger("Brazilian_E_Commerce")
     logger.info("application start running...")
     parser = argparse.ArgumentParser(description="Brazilian_E_Commerce")
-    # parser.add_argument("-p", "--path",
-    #                     help="please provide yaml config file path",
-    #                     nargs='?',
-    #                     default="/dbfs/FileStore/structure_streaming_test/config/config.yaml"
-    #                     )
     parser.add_argument("-e", "--envt",
                         help="please confirm the environment",
                         nargs='?',
@@ -35,7 +30,7 @@ def main():
         logger.error(f"trace back is  : \n {traceback.format_exc()}")
         sys.exit(1)
     else:
-        logger.info("TESTAPP  run completed!")
+        logger.info("Brazilian_E_Commerce run completed!")
     finally:
         spark.stop()
 

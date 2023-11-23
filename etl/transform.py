@@ -2,7 +2,7 @@ import os
 from dataclasses import dataclass
 
 from pyspark.sql import DataFrame
-from utl.utls import rtn_logger, read_yaml, spark
+from utl.utls import rtn_logger, read_yaml, spark, show_df
 
 
 @dataclass
@@ -11,6 +11,7 @@ class YmlConf:
     source_file: dict
     countries: list
     output_path: str
+    output_partitions: str
 
     def get_dataset(self, name) -> dict:
         data = self.source_file.get(name, None)
@@ -69,12 +70,12 @@ class Transform:
                               "cast(order_purchase_timestamp as timestamp) as order_purchase_timestamp",
                               )
                   )
-        result.printSchema()
-        result.show(truncate=False)
+        self.logger.info(f"schema is: \n {result.schema}")
+        self.logger.info(f"the final result is \n {show_df(result)}")
         return result
 
     def load(self, df: DataFrame) -> None:
-        df.write.mode("overwrite").partitionBy("product_category_name").parquet(self.yml.output_path)
+        df.write.mode("overwrite").partitionBy(self.yml.output_partitions).parquet(self.yml.output_path)
 
     def pipeline(self) -> None:
         self.construct_Yml()

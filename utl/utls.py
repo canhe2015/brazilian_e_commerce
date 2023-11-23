@@ -18,19 +18,20 @@ def rtn_logger(name):
     return logger
 
 
-def show_df(df, n=20, truncate=False, vertical=False) -> None:
+def show_df(df, n=20, truncate=False, vertical=False) -> str:
     """
     display dataframe
-    :param df:
+    :param df: expect a spark dataframe
     :param n:
     :param truncate:
     :param vertical:
     :return:
     """
+    # only to show maximum 50 rows
     if n > 50:
         n = 20
     if isinstance(truncate, bool) and truncate:
-        return df._jdf.showString(n, 23, vertical)
+        return df._jdf.showString(n, truncate, vertical)
     else:
         return df._jdf.showString(n, int(truncate), vertical)
 
