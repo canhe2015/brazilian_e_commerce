@@ -35,10 +35,17 @@ DEV:
 
   output_path: "C:\\data\\test_data\\output"
   output_partitions: product_id
+  output_columns: &output_cols
+    - product_id
+    - order_id
+    - product_category_name
+    - order_purchase_timestamp
+    - payment_value
 
 PROD:
   dataset_root_dir: "C:\\data\\prod_data\\Brazilian_E_Commerce"
   output_path: "C:\\data\\prod_data\\output"
-  output_partitions: product_id
+  output_partitions: product_category_name
   source_file: *source_file
   countries: *counties
+  output_columns: *output_cols

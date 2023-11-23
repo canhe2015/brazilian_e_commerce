@@ -12,6 +12,7 @@ class YmlConf:
     countries: list
     output_path: str
     output_partitions: str
+    output_columns:str
 
     def get_dataset(self, name) -> dict:
         data = self.source_file.get(name, None)
@@ -76,10 +77,11 @@ class Transform:
         return result
 
     def load(self, df: DataFrame) -> None:
-        df.write.mode("overwrite").partitionBy(self.yml.output_partitions).parquet(self.yml.output_path)
+        df.select(self.yml.output_columns).write.mode("overwrite").partitionBy(self.yml.output_partitions).parquet(
+            self.yml.output_path)
 
     def pipeline(self) -> None:
         self.construct_yml()
-        # dfs = self.extract()
-        # result = self.transform(*dfs)
-        # self.load(result)
+        dfs = self.extract()
+        result = self.transform(*dfs)
+        self.load(result)

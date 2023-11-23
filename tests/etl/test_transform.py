@@ -21,7 +21,9 @@ d = {'DEV': {'dataset_root_dir': 'C:\\data\\test_data\\Brazilian_E_Commerce',
                              'order_items': {'format': 'csv', 'dataset': 'olist_order_items_dataset.csv',
                                              'columns': ['order_id', 'product_id']}},
              'countries': ['brazil'], 'output_path': 'C:\\data\\test_data\\output',
-             'output_partitions': 'product_id'}
+             'output_partitions': 'product_id',
+             'output_columns': ['product_id', 'order_id', 'product_category_name', 'order_purchase_timestamp',
+                                'payment_value']}
      }
 
 
