@@ -12,11 +12,11 @@ This is a demo project written in pyspark to prepare the required dataset for th
 4. Configuration files in yml
 
 [project structure]
-1. etl/__main__.py: Main script to run the PySpark job.
-2. requirements.txt: List of Python dependencies.
-3. README.md: This README file.
-4. config/settings.yaml: Folder containing configuration files.
-5. etl/: Folder containing the source code for the PySpark job.
+1. etl/__main__.py: entrypoint to run the PySpark job.
+2. requirements.txt: Python dependencies.
+3. README.md: The README file.
+4. config/settings.yaml: configuration files.
+5. etl/: source code directory for the PySpark job.
 6. tests/: Folder containing test files.
 
 [usage]
