@@ -1,3 +1,5 @@
+from typing import Any
+
 import yaml
 
 from pyspark.sql import SparkSession
@@ -7,11 +9,11 @@ _sc = spark.sparkContext
 _sc.setLogLevel("INFO")
 
 
-def rtn_logger(name):
+def rtn_logger(name) -> Any:
     """
        generated logger
        :param name: give a name for logger
-       :return: log4j logger with a name specified
+       :return: java log4j logger instance with a name specified
     """
     log4jLogger = spark.sparkContext._jvm.org.apache.log4j
     logger = log4jLogger.LogManager.getLogger(name)
