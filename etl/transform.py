@@ -85,7 +85,7 @@ class Transform:
 
     def load(self, df: DataFrame) -> None:
         # write the file result to a sink specified in the yaml path, if you want to change the partitions, just
-        # change the output_columns in the yaml file
+        # change the output_partitions in the yaml file
         df.select(self.yml.output_columns).write.mode("overwrite").partitionBy(self.yml.output_partitions).parquet(
             self.yml.output_path)
 

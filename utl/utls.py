@@ -24,10 +24,10 @@ def show_df(df, n=20, truncate=False, vertical=False) -> str:
     """
     display dataframe
     :param df: expect a spark dataframe
-    :param n:
-    :param truncate:
-    :param vertical:
-    :return:
+    :param n: by default only show 20 rows
+    :param truncate: refer to df.show method
+    :param vertical: refer to df.show method
+    :return: string
     """
     # only to show maximum 50 rows
     if n > 50:
@@ -42,7 +42,7 @@ def read_yaml(yaml_file_path: str) -> dict:
     """
         read yaml function from configuration file
         :param yaml_file_path:
-        :return:
+        :return: a dictionary
     """
     with open(yaml_file_path, "r") as f:
         data = yaml.safe_load(f.read())
