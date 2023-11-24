@@ -23,7 +23,7 @@ This is a demo project written in pyspark to prepare the required dataset for th
 config file: 
   please refer to setting.yaml in config directory which consists of two sections "DEV" and "PROD",you can 
   get the input columns, result columns and filters for each table in the config file
-  result columns are: product_id,order_id ,product_category_name ,order_purchase_timestamp ,payment_value
+  
 
 how to run this program:
  1. the program entry point is etl.__main__.main, you can refer to the setup.py, you can run the program by using 
@@ -37,8 +37,8 @@ how to run this program:
 if you want to know more about what each function/method do, you can refer to the docstring under def statements
 
 [possible improvements]:
-1. function filter the data by country is not provided yet in the program, but can be implemented without big change, 
-   you can just add filters to the table that has a country column in the yaml file, 
+1. function of filter the data by country is not provided yet in the program, but can be implemented without big 
+   change, you can just add filters to the table that has a country column in the yaml file, 
    or you can get the "countries" key value pair in the yaml file to update the logic of extract method in 
    transform class
 2. transform logic can be written in sql statements and put it in the yaml file or database, or if there is a 
@@ -47,6 +47,14 @@ if you want to know more about what each function/method do, you can refer to th
 3. in order to make the application more reliable, validate function/method to be added
 4. possible join optimization can be added in the transform operations depend on table size
 5. some logger information to be added in some key functions/method
+
+[program output]
+output columns are: 
+  - product_id: string,
+  - order_id: string ,
+  - product_category_name: string ,
+  - order_purchase_timestamp: timestamp ,
+  - payment_value: double
 
 [data model]
 
