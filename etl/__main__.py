@@ -8,12 +8,14 @@ from utl.utls import rtn_logger, spark
 
 
 def main():
+    # program entry point to read the passed parameters from command line and catch errors
     logger = rtn_logger("Brazilian_E_Commerce")
     logger.info("application start running...")
     parser = argparse.ArgumentParser(description="Brazilian_E_Commerce")
     parser.add_argument("-e", "--envt",
                         help="please confirm the environment",
                         nargs='?',
+                        choices=["DEV", "PROD"],
                         default="DEV"
                         )
     args = parser.parse_args()
