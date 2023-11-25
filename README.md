@@ -51,6 +51,7 @@ if you want to know more about what each function/method do, you can refer to th
 3. in order to make the application more reliable, validate function/method to be added
 4. possible join optimization can be added in the transform operations depend on table size
 5. some logger information to be added in some key functions/method
+6. missing values is not taken care of
 
 [program output]
 output columns are: 
