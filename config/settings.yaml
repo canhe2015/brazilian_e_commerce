@@ -34,7 +34,7 @@ DEV:
     - brazil
 
   output_path: "C:\\data\\test_data\\output"
-  output_partitions: product_category_name
+  output_partitions: product_id
   output_columns: &output_cols
     - product_id
     - product_category_name
@@ -46,7 +46,7 @@ DEV:
 PROD:
   dataset_root_dir: "C:\\data\\prod_data\\Brazilian_E_Commerce"
   output_path: "C:\\data\\prod_data\\output"
-  output_partitions: product_category_name
+  output_partitions: product_id
   source_file: *source_file
   countries: *counties
   output_columns: *output_cols
