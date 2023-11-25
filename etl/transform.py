@@ -3,6 +3,7 @@ from dataclasses import dataclass
 
 from pyspark.sql import DataFrame
 from utl.utls import rtn_logger, read_yaml, spark, show_df
+import pyspark.sql.functions as F
 
 
 @dataclass
@@ -26,6 +27,7 @@ class Transform:
     """
     this is class will perform the ETL process, read the source file and apply filters and transform the data
     """
+
     def __init__(self, yml_path, env):
         self.yml = None
         self.yml_path = yml_path
@@ -49,14 +51,14 @@ class Transform:
         if not all(datasets):
             raise Exception("empty datasets are spotted, please provide all required datasets")
         products, orders, order_payment, order_items = [
-                spark
+            spark
                 .read
                 .format(d['format'])
                 .option("header", True)
                 .load(d['dataset'])
                 .select(*d['columns'])
                 .where(d.get('filters', '1=1'))
-                for d in datasets
+            for d in datasets
         ]
         return products, orders, order_payment, order_items
 
@@ -70,18 +72,29 @@ class Transform:
                                                                       orders['order_purchase_timestamp'],
                                                                       order_payment['payment_value']
                                                                       )
-        result = (df1
-                  .join(df2, ['order_id'])
-                  .selectExpr("order_id",
-                              "product_id",
-                              "product_category_name",
-                              "cast(payment_value as double) as payment_value",
-                              "cast(order_purchase_timestamp as timestamp) as order_purchase_timestamp",
-                              )
-                  )
-        self.logger.info(f"schema is: \n {result.schema}")
-        self.logger.info(f"the final result is \n {show_df(result)}")
-        return result
+        daily_agg = (df1
+                     .join(df2, ['order_id'])
+                     .selectExpr("product_id",
+                                 "product_category_name",
+                                 "cast(payment_value as double) as payment_value",
+                                 "cast(order_purchase_timestamp as timestamp) as order_purchase_timestamp",
+                                 )
+                     .withColumn("order_purchase_date", F.date_trunc("day", F.col("order_purchase_timestamp")))
+                     .groupBy("product_id", "order_purchase_date", "product_category_name")
+                     .agg(F.expr("sum(payment_value) as sales_daily_amount"))
+                     .select("product_id", "order_purchase_date", "product_category_name", "sales_daily_amount")
+                     )
+        week_agg = (daily_agg
+                    .withColumn("week_of_year", F.weekofyear("order_purchase_date"))
+                    .withColumn("week_start", F.to_date(F.date_trunc("week", "order_purchase_date")))
+                    .withColumn("week_end", F.date_add("week_start", 6))
+                    .groupBy("product_id", "product_category_name", "week_of_year", "week_start", "week_end")
+                    .agg(F.expr("sum(sales_daily_amount) as weekly_sales_amount"))
+                    )
+
+        self.logger.info(f"schema is: \n {week_agg.schema}")
+        self.logger.info(f"the final result is \n {show_df(week_agg)}")
+        return week_agg
 
     def load(self, df: DataFrame) -> None:
         # write the file result to a sink specified in the yaml path, if you want to change the partitions, just

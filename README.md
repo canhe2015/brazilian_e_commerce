@@ -1,6 +1,7 @@
 # Brazilian E-Commerce project
 This is a demo project written in pyspark to prepare the required dataset for the modeler
 [requirements]
+
 1. We want to forecast for each item, what are the sales going to be next week.
    Expected output is repository that has the following:
    1. Code to load relevant tables for the task (minimum tables needed), 
@@ -12,6 +13,7 @@ This is a demo project written in pyspark to prepare the required dataset for th
 4. Configuration files in yml
 
 [project structure]
+
 1. etl/__main__.py: entrypoint to run the PySpark job.
 2. requirements.txt: Python dependencies.
 3. README.md: The README file.
@@ -20,6 +22,7 @@ This is a demo project written in pyspark to prepare the required dataset for th
 6. tests/: Folder containing test files.
 
 [usage]
+
 config file: 
   please refer to setting.yaml in config directory which consists of two sections "DEV" and "PROD",you can 
   get the input columns, result columns and filters for each table in the config file
@@ -36,7 +39,8 @@ how to run this program:
 
 if you want to know more about what each function/method do, you can refer to the docstring under def statements
 
-[possible improvements]:
+[possible improvements]
+
 1. function of filter the data by country is not provided yet in the program, but can be implemented without big 
    change, you can just add filters to the table that has a country column in the yaml file, 
    or you can get the "countries" key value pair in the yaml file to update the logic of extract method in 
@@ -51,10 +55,12 @@ if you want to know more about what each function/method do, you can refer to th
 [program output]
 output columns are: 
   - product_id: string,
-  - order_id: string ,
-  - product_category_name: string ,
-  - order_purchase_timestamp: timestamp ,
-  - payment_value: double
+  - product_category_name: string
+  - week_start: date,
+  - week_end: date ,
+  - week_of_year: integer ,
+  - weekly_sales_amount: double
+
 
 [data model]
 
